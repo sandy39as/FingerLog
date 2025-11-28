@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Finger Log</title>
+    <link rel="icon" type="image/png" href="{{ asset('logo finger png.png') }}">
 
     {{-- Tailwind CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
