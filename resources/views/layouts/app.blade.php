@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title ?? 'Sistem Presensi Karyawan' }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    {{-- FONT ROBOTO --}}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    {{-- VITE ASSETS --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+<body class="bg-slate-100 font-roboto">
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
+    <div class="flex min-h-screen">
+
+        {{-- 🌐 SIDEBAR --}}
+        @include('layouts.sidebar')
+
+        {{-- AREA KANAN (NAVBAR + CONTENT + FOOTER) --}}
+        <div class="flex-1 flex flex-col min-h-screen">
+
+            {{-- 🌐 TOPBAR --}}
+            @include('layouts.topbar')
+
+            {{-- 🌐 MAIN CONTENT --}}
+            <main class="flex-1 p-6">
+                @yield('content')
             </main>
+
+            {{-- 🌐 FOOTER --}}
+            @include('layouts.footer')
+
         </div>
-    </body>
+
+    </div>
+
+</body>
 </html>
