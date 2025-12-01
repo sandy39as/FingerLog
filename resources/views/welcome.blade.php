@@ -42,7 +42,8 @@
 
             {{-- LOGO --}}
             <div class="flex items-center gap-3">
-                <div class="h-12 w-12 rounded-xl bg-navy text-white flex items-center justify-center overflow-hidden border border-emerald-soft">
+                <div
+                    class="h-12 w-12 rounded-xl bg-navy text-white flex items-center justify-center overflow-hidden border border-emerald-soft">
                     <img src="{{ asset('logo finger png.png') }}" class="max-h-10 max-w-10 object-contain">
                 </div>
 
@@ -59,7 +60,7 @@
             {{-- NAVIGATION --}}
             <nav class="flex items-center gap-2 text-sm">
                 @auth
-                    <a href="/dashboard"
+                    <a href="{{ route('dashboard') }}"
                         class="px-4 py-2 rounded-full bg-emerald text-white font-medium shadow-md hover:bg-emerald-soft transition">
                         Dashboard
                     </a>
@@ -87,7 +88,7 @@
         <div>
             <h2 class="text-4xl font-bold text-navy leading-tight">
                 Pantau Riwayat <span class="text-emerald">Finger</span> Karyawan Secara
-                <span class="text-emerald">Akurat</span> & Realtime.
+                <span class="text-emerald">Akurat</span> &amp; Realtime.
             </h2>
 
             <p class="mt-4 text-slate-600 text-lg">
@@ -97,20 +98,23 @@
             </p>
 
             <div class="flex flex-wrap gap-2 mt-5">
-                <span class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-700">
+                <span
+                    class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-700">
                     Rekap Harian
                 </span>
-                <span class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-700">
+                <span
+                    class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-700">
                     Log Finger
                 </span>
-                <span class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-700">
-                    Shift & Departemen
+                <span
+                    class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-700">
+                    Shift &amp; Departemen
                 </span>
             </div>
 
             <div class="mt-6 flex gap-4 items-center">
                 @auth
-                    <a href="/dashboard"
+                    <a href="{{ route('dashboard') }}"
                         class="px-6 py-3 bg-emerald text-white rounded-lg text-sm font-semibold shadow-lg hover:bg-emerald-soft transition">
                         Buka Dashboard
                     </a>
@@ -130,34 +134,38 @@
                 Ringkasan Hari Ini
             </h3>
 
+            <p class="text-xs text-slate-500 mb-4">
+                {{ isset($today) ? \Carbon\Carbon::parse($today)->translatedFormat('l, d F Y') : '' }}
+            </p>
+
             <div class="grid grid-cols-2 gap-4 mb-6">
 
                 {{-- CARD 1 --}}
                 <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
                     <p class="text-xs text-slate-500 uppercase tracking-wide">Total Karyawan</p>
-                    <h4 class="text-2xl font-bold text-navy">128</h4>
+                    <h4 class="text-2xl font-bold text-navy">{{ $totalKaryawan ?? 0 }}</h4>
                     <p class="text-xs text-slate-500 mt-1">Aktif di sistem</p>
                 </div>
 
                 {{-- CARD 2 --}}
                 <div class="bg-emerald-soft/80 border border-emerald rounded-xl p-4">
                     <p class="text-xs text-emerald-900 uppercase tracking-wide">Hadir</p>
-                    <h4 class="text-2xl font-bold text-emerald-900">117</h4>
-                    <p class="text-xs text-emerald-900 mt-1">+5 dari kemarin</p>
+                    <h4 class="text-2xl font-bold text-emerald-900">{{ $hadirHariIni ?? 0 }}</h4>
+                    <p class="text-xs text-emerald-900 mt-1">Presensi hari ini</p>
                 </div>
 
                 {{-- CARD 3 --}}
                 <div class="bg-orange-50 border border-orange-200 rounded-xl p-4">
                     <p class="text-xs text-orange-700 uppercase tracking-wide">Terlambat</p>
-                    <h4 class="text-2xl font-bold text-orange-700">11</h4>
-                    <p class="text-xs text-orange-700 mt-1">Shift pagi</p>
+                    <h4 class="text-2xl font-bold text-orange-700">{{ $terlambatHariIni ?? 0 }}</h4>
+                    <p class="text-xs text-orange-700 mt-1">Telat &gt; 0 menit</p>
                 </div>
 
                 {{-- CARD 4 --}}
                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
                     <p class="text-xs text-blue-700 uppercase tracking-wide">Belum Pulang</p>
-                    <h4 class="text-2xl font-bold text-blue-700">39</h4>
-                    <p class="text-xs text-blue-700 mt-1">Masih aktif</p>
+                    <h4 class="text-2xl font-bold text-blue-700">{{ $belumPulang ?? 0 }}</h4>
+                    <p class="text-xs text-blue-700 mt-1">Masih aktif di shift</p>
                 </div>
 
             </div>
@@ -165,17 +173,20 @@
             {{-- NAVIGATION SHORTCUTS --}}
             <div class="grid grid-cols-3 gap-4 text-center text-xs">
 
-                <a class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-emerald hover:bg-emerald-soft/40 transition cursor-pointer">
+                <a href="{{ route('absensi.index') }}"
+                    class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-emerald hover:bg-emerald-soft/40 transition cursor-pointer">
                     <p class="font-semibold">Riwayat</p>
-                    <p class="text-slate-600 text-[0.7rem]">Log Mentah</p>
+                    <p class="text-slate-600 text-[0.7rem]">Rekap Absensi</p>
                 </a>
 
-                <a class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-emerald hover:bg-emerald-soft/40 transition cursor-pointer">
+                <a href="{{ route('karyawan.index') ?? '#' }}"
+                    class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-emerald hover:bg-emerald-soft/40 transition cursor-pointer">
                     <p class="font-semibold">Karyawan</p>
-                    <p class="text-slate-600 text-[0.7rem]">Departemen</p>
+                    <p class="text-slate-600 text-[0.7rem]">Data Karyawan</p>
                 </a>
 
-                <a class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-emerald hover:bg-emerald-soft/40 transition cursor-pointer">
+                <a href="{{ route('absensi.index') }}"
+                    class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-emerald hover:bg-emerald-soft/40 transition cursor-pointer">
                     <p class="font-semibold">Import</p>
                     <p class="text-slate-600 text-[0.7rem]">File Finger</p>
                 </a>

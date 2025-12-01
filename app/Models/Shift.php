@@ -5,22 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Karyawan extends Model
+class Shift extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nik',
-        'nama',
-        'bagian',
-        'jabatan',
-        'status',
+        'nama_shift',
+        'jam_masuk_normal',
+        'jam_pulang_normal',
+        'range_masuk_mulai',
+        'range_masuk_selesai',
+        'range_pulang_mulai',
+        'range_pulang_selesai',
+        'minimal_lembur_menit',
     ];
-
-    public function absenMentahs()
-    {
-        return $this->hasMany(AbsenMentah::class);
-    }
 
     public function absens()
     {
