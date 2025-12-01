@@ -232,4 +232,40 @@ class AbsensiController extends Controller
             'absen'            => $absen,
         ]);
     }
+
+    public function dashboard(Request $request)
+    {
+        $today = $request->input('tanggal', date('Y-m-d'));
+
+        $rekap = Absen::with(['karyawan', 'shift'])
+            ->whereDate('tanggal', $today)  
+            ->orderBy('jam_masuk', 'asc')
+            ->paginate(15);
+
+        $totalKaryawan = Karyawan::count();
+
+        $hadirHariIni = Absen::whereDate('tanggal', $today)->count();
+
+        $terlambatHariIni = Absen::whereDate('tanggal', $today)
+            ->where('status_telat', 1)
+            ->count();
+
+        $totalMenitTelatHariIni = Absen::whereDate('tanggal', $today)
+            ->sum('menit_telat');
+
+        $belumPulang = Absen::whereDate('tanggal', $today)
+            ->whereNull('jam_pulang')
+            ->count();
+
+        return view('dashboard', compact(
+            'today',
+            'rekap',
+            'totalKaryawan',
+            'hadirHariIni',
+            'terlambatHariIni',
+            'totalMenitTelatHariIni',
+            'belumPulang'
+        ));
+    }
+
 }

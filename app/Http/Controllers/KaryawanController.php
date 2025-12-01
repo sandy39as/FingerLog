@@ -10,12 +10,34 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class KaryawanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $karyawans = Karyawan::orderBy('nama')->paginate(20);
+        $query = Karyawan::query();
 
-        return view('karyawan.index', compact('karyawans'));
+        // Search nama
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter bagian
+        if ($request->filled('bagian')) {
+            $query->where('bagian', $request->bagian);
+        }
+
+        // Ambil data karyawan
+        $karyawans = $query->orderBy('nama')->paginate(15);
+
+        // Ambil list bagian unik untuk dropdown
+        $bagianOptions = Karyawan::whereNotNull('bagian')
+            ->where('bagian', '<>', '')
+            ->select('bagian')
+            ->distinct()
+            ->orderBy('bagian')
+            ->pluck('bagian');
+
+        return view('karyawan.index', compact('karyawans', 'bagianOptions'));
     }
+
 
     public function import(Request $request)
     {

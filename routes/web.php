@@ -9,15 +9,14 @@ use App\Http\Controllers\KaryawanController;
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('welcome'); 
+})->name('landing');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/', [DashboardController::class, 'index'])->name('home');
 Route::resource('karyawan', KaryawanController::class)->only(['index']);
-
 
 
 Route::middleware('auth')->group(function () {
@@ -41,6 +40,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/absensi', [AbsensiController::class, 'index'])
+        ->name('absensi.index');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
@@ -55,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/import-finger', [ImportFingerController::class, 'store'])
         ->name('import.finger.store');
+
+    Route::get('/absensi/dashboard', [AbsensiController::class, 'dashboard'])
+         ->name('absensi.dashboard');
 
 });
 
