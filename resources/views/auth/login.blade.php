@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-900 px-4">
+    <div class="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-900 px-4">
 
         {{-- CARD LOGIN --}}
         <div class="w-full max-w-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 
